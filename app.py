@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-Kora_url = "https://kora-ai.onrender.com/koraai?query={}"
+Kora_url = "https://nexus-ai-30oy.onrender.com/Nex?query={}"
 Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages

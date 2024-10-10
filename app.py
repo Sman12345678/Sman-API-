@@ -15,8 +15,8 @@ def process_request():
         return jsonify({"error": "No query provided"}), 400
 
     # Check if the input is for image generation (starts with 'Imagine,')
-    if user_input.startswith('Imagine,'):
-        prompt = user_input.split('Imagine,', 1)[1].strip()
+    if user_input.startswith('Imagine'):
+        prompt = user_input.split('Imagine', 1)[1].strip()
 
         # Request to generate an image URL
         image_api_url = Sman_url.format(prompt=prompt)
@@ -30,7 +30,7 @@ def process_request():
             if image_url:
                 return jsonify({"image_url": image_url})
             else:
-                return jsonify({"error": "No image URL returned"}), 500
+                return jsonify({"error": "No image Created"}), 500
         else:
             return jsonify({"error": "Failed to retrieve image URL"}), response.status_code
 

@@ -20,7 +20,7 @@ def process_request():
 
         # Request to generate an image URL
         image_api_url = Sman_url.format(prompt=prompt)
-        response = requests.get(image_api_url)
+        response = requests.get(Sman_url)
 
         if response.status_code == 200:
             # Assuming the response is a JSON containing the image URL

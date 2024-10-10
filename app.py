@@ -3,11 +3,11 @@ import requests
 
 app = Flask(__name__)
 
-Kora_url = "https://nexus-ai-30oy.onrender.com/Nex?query={}"
+Kora_url = "https://kora-ai.onrender.com/koraai?query={}"
 Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages
-@app.route('/process', methods=['GET','POST'])
+@app.route('/process', methods=['GET'])
 def process_request():
     user_input = request.args.get('query')
     
@@ -15,24 +15,26 @@ def process_request():
         return jsonify({"error": "No query provided"}), 400
 
     # Check if the input is for image generation (starts with 'Imagine,')
-    if user_input.startswith('Imagine'):
-        prompt = user_input.split('Imagine', 1)[1].strip()
+    if user_input.startswith('Imagine,'):
+        prompt = user_input.split('Imagine,', 1)[1].strip()
 
-        # Request to generate an image URL
-        image_api_url = Sman_url.format(prompt)
+        # Create the correct URL for the image generation API
+        image_api_url = Sman_url.format(prompt=prompt)
+
+        # Make the request to the image generation API
         response = requests.get(image_api_url)
 
         if response.status_code == 200:
-            # Assuming the response is a JSON containing the image URL
+            # Assuming the response contains the image URL
             image_data = response.json()
-            image_url = image_data.get("image_url")  # Adjust based on the API's JSON structure
-            
+            image_url = image_data.get("image_url")  # Adjust based on the actual JSON structure
+
             if image_url:
                 return jsonify({"image_url": image_url})
             else:
-                return jsonify({"error": "No image Created"}), 500
+                return jsonify({"error": "No image URL returned"}), 500
         else:
-            return jsonify({"error": "Failed to retrieve image URL"}), response.status_code
+            return jsonify({"error": f"Failed to retrieve image URL: {response.status_code}"}), response.status_code
 
     else:
         # If it's a normal user message, call the Kora API
@@ -44,4 +46,4 @@ def process_request():
             return jsonify({"error": "Failed to retrieve message"}), kora_response.status_code
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=3000)
+    app.run(debug=True)

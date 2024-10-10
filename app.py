@@ -1,11 +1,10 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify
 import requests
-from io import BytesIO
 
 app = Flask(__name__)
 
 Kora_url = "https://kora-ai.onrender.com/koraai?query={}"
-Sman_url = "https://example.com?prompt={}"
+Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages
 @app.route('/process', methods=['GET'])
@@ -19,16 +18,21 @@ def process_request():
     if user_input.startswith('Imagine,'):
         prompt = user_input.split('Imagine,', 1)[1].strip()
 
-        # Request to generate an image
-        image_url = Sman_url.format(prompt=prompt)
-        response = requests.get(image_url)
+        # Request to generate an image URL
+        image_api_url = Sman_url.format(prompt=prompt)
+        response = requests.get(image_api_url)
 
         if response.status_code == 200:
-            # Handle and send back the image
-            image = BytesIO(response.content)
-            return send_file(image, mimetype='image/jpeg')
+            # Assuming the response is a JSON containing the image URL
+            image_data = response.json()
+            image_url = image_data.get("image_url")  # Adjust based on the API's JSON structure
+            
+            if image_url:
+                return jsonify({"image_url": image_url})
+            else:
+                return jsonify({"error": "No image URL returned"}), 500
         else:
-            return jsonify({"error": "Failed to retrieve image"}), response.status_code
+            return jsonify({"error": "Failed to retrieve image URL"}), response.status_code
 
     else:
         # If it's a normal user message, call the Kora API

@@ -7,7 +7,7 @@ Kora_url = "https://nexus-ai-30oy.onrender.com/Nex?query={}"
 Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages
-@app.route('/process', methods=['GET'])
+@app.route('/process', methods=['GET','POST'])
 def process_request():
     user_input = request.args.get('query')
     

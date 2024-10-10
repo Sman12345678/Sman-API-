@@ -19,7 +19,7 @@ def process_request():
         prompt = user_input.split('Imagine', 1)[1].strip()
 
         # Request to generate an image URL
-        image_api_url = Sman_url.format(prompt=prompt)
+        image_api_url = Sman_url.format(prompt)
         response = requests.get(image_api_url)
 
         if response.status_code == 200:

@@ -15,11 +15,11 @@ def process_request():
         return jsonify({"error": "No query provided"}), 400
 
     # Check if the input is for image generation (starts with 'Imagine,')
-    if user_input.startswith('Imagine,'):
-        prompt = user_input.split('Imagine,', 1)[1].strip()
+    if user_input.startswith('Imagine'):
+        prompt = user_input.split('Imagine', 1)[1].strip()
 
-        # Create the correct URL for the image generation API
-        image_api_url = Sman_url.format(prompt=prompt)
+        # Correct the formatting to use positional argument
+        image_api_url = Sman_url.format(prompt)
 
         # Make the request to the image generation API
         response = requests.get(image_api_url)

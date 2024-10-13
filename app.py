@@ -26,7 +26,7 @@ def process_request():
 
         if response.status_code == 200:
             # Assuming the response contains the image URL
-            image_data = response.json()
+            image_data = response.text
             image_url = image_data.get("image_url")  # Adjust based on the actual JSON structure
 
             if image_url:

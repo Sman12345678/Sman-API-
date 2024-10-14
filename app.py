@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 Kora_url = "https://nexus-qa53.onrender.com/Nex?query={}"
-Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
+Sman_url = "https://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages
 @app.route('/process', methods=['GET'])

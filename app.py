@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 Kora_url = "https://kora-ai-sh1p.onrender.com/koraai?query={}"
-Sman_url = "https://3.27.248.76:3000/generate-image-flux?prompt={}"
+Sman_url = "http://3.27.248.76:3000/generate-image-flux?prompt={}"
 
 # Single route handling both image generation and user messages
 @app.route('/process', methods=['GET'])

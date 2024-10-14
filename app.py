@@ -44,4 +44,4 @@ def process_request():
             return jsonify({"error": "Failed to retrieve message"}), kora_response.status_code
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0.',port=3000)
